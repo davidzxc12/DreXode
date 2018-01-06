@@ -1,0 +1,42 @@
+.login_container {
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -25%;
+    margin-top: -120px;
+    padding: 20px;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 3px 5px 1px rgba(142,142,142,0.62);
+    box-shadow: 3px 3px 5px 1px rgba(142,142,142,0.62);
+    
+}
+.login_container .brand{
+    font-family: 'Rubik', sans-serif;
+    margin: 0 auto;
+    font-size: 50px;
+    text-align: center;
+    color: rgba(107, 107, 107, 0.733);
+}
+.login_container form button,.login_container form input{
+    width: 100%;
+    height: 50px;
+}
+.bg_container {
+    height: 100%;
+    width: 100%;
+}
+
+.bg_container:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('https://image.freepik.com/free-photo/wooden-board-empty-table-in-front-of-blurred-background-perspective-brown-wood-table-over-blur-trees-in-forest-background-can-be-used-mock-up-for-display-or-montage-your-products-autumn-season_1253-1146.jpg');
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    z-index: -1;
+    background-size: cover;
+}
