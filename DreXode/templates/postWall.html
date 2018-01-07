@@ -1,43 +1,49 @@
-{% extends "base.html" %}
-{% load static %}
-{% block css %}
+{% extends "base.html" %} {% load static %} {% block css %}
 <link href="{% static 'css/postWall.css' %}" rel="stylesheet">
-<script src="{% static 'js/postWall.js' %}"></script>
-{% endblock css %}
-{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons-wind.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.eot">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.svg" >
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.ttf" >
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.woff">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.woff2">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+{% endblock css %} {% block content %}
 <div class="side-filter">test</div>
 <div class="container-fluid post-container">
-    <div class="newPost-container row">
-         <div class="uploadPic-section col-md-6">
-            <label>Upload a photo:</label>
-            <input type="file" name="pic" id="pic">                
-            <label for="pic"><img class="preview" src="{% static 'img/upload.png' %}"></label>
-         </div>
-         <div class="detail-section col-md-6">
-             <div>
-                <label>Up wear:</label>
-                <input type="text" name="upwear" id="upwear"> 
-            </div>Accessories
-            <div>
-                <label>Down wear:</label>
-                <input type="text" name="dwonwear" id="dwonwear"> 
+    <div class="newPost-container">
+        <form class="postForm" action="/newPost/" method="POST" enctype="multipart/form-data" style="display: none;" >
+        {% csrf_token %}
+        </form> 
+        <div class="upper-section row">
+
+            <div class="uploadPic-section col-sm-12 col-md-4">
+
+                <input type="file" name="pic" id="pic" accept="image/jpeg">
+                <label class="file-label" for="pic"><img class="preview" src="{% static 'img/upload.png' %}"></label>
             </div>
-            <div>
-                <label>Shoes:</label>
-                <input type="text" name="shoes" id="shoes"> 
+            <div class="detail-section col-sm-12 col-md-8">
+                <input type="text" name="upwear" id="upwear" placeholder="Up wear...">
+
+                <input type="text" name="downwear" id="downwear" placeholder="Down wear...">
+                <input type="text" name="shoes" id="shoes" placeholder="Shoes...">
+                <input type="text" name="accessories" id="accessories" placeholder="Accessories...">
+
             </div>
-            <div>
-                <label>Accessories:</label>
-                <input type="text" name="accessories" id="accessories"> 
-            </div>
-            <div class="weather-section">
-                <label>Weather:</label>
-                <img class="weather-icon" src="">
-                <div class="btn btn-secondary">by GPS</div>
-                
-            </div>
-         </div>
+        </div>
+        <div class="weather-section">
+            <label>Weather:</label>
+            <div class="weather-icon"><i class="wi wi-night-sleet"></i></div>
+            <div class="btn btn-danger getWeatherByLoc"><i class="material-icons" style="font-size:10px;">location_on</i></div>
+            <div class="btn btn-primary submit-post">DreXcode</div>
+        </div>
     </div>
 </div>
+<script>
+        $.getJSON('{% static "icons.json" %}', function(data){
+            weatherIcons = data;
+        })
+</script>
+<script src="{% static 'js/postWall.js' %}"></script>
 {% endblock content %}
-
