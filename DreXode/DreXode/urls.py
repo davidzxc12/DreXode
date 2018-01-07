@@ -15,14 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from news_feed.views import news_feed
+from django.conf import settings
+from django.conf.urls.static import static
+from django.http import HttpResponseRedirect
+
+from posts.views import postWall
 from user_profile.views import login, logout,register,profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', news_feed),
+    path('index/', postWall),
     path('login/', login),
     re_path('logout/', logout),
     re_path('register/', register),
-    re_path('profile/',profile)
-]
+    re_path('profile/',profile),
+    re_path('^$',lambda r: HttpResponseRedirect('/index'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

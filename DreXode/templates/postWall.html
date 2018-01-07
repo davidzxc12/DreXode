@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link href="{% static 'css/postWall.css' %}" rel="stylesheet">
+<script src="{% static 'js/postWall.js' %}"></script>
+{% endblock css %}
+{% block content %}
+<div class="side-filter">test</div>
+<div class="container-fluid post-container">
+    <div class="newPost-container row">
+         <div class="uploadPic-section col-md-6">
+            <label>Upload a photo:</label>
+            <input type="file" name="pic" id="pic">                
+            <label for="pic"><img class="preview" src="{% static 'img/upload.png' %}"></label>
+         </div>
+         <div class="detail-section col-md-6">
+             <div>
+                <label>Up wear:</label>
+                <input type="text" name="upwear" id="upwear"> 
+            </div>Accessories
+            <div>
+                <label>Down wear:</label>
+                <input type="text" name="dwonwear" id="dwonwear"> 
+            </div>
+            <div>
+                <label>Shoes:</label>
+                <input type="text" name="shoes" id="shoes"> 
+            </div>
+            <div>
+                <label>Accessories:</label>
+                <input type="text" name="accessories" id="accessories"> 
+            </div>
+            <div class="weather-section">
+                <label>Weather:</label>
+                <img class="weather-icon" src="">
+                <div class="btn btn-secondary">by GPS</div>
+                
+            </div>
+         </div>
+    </div>
+</div>
+{% endblock content %}
+

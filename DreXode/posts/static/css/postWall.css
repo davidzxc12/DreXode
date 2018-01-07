@@ -1,0 +1,26 @@
+.post-container{
+    height: 100%;
+    background: black;
+    width: 80%;
+    margin-left: 20%;
+    padding-top: 120px;
+}
+.newPost-container{
+    background-color: white;
+    margin: 0 10%;
+    padding: 20px;
+}
+
+.uploadPic-section img.preview{
+    height: 200px;
+    width: 200px;
+    object-fit: contain;
+}
+input#pic {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}

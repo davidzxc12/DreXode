@@ -4,12 +4,43 @@
     <div class="bg_container">
         <div class="profile_area">
             <div class="row upper_area">
-                <div class="photo col-sm-3"><img src="{% static user.photo_url %}" style="max-height: 150px;max-width:150px"></div>
+                <div class="photo col-sm-3"><img src="{% if photo_path == '' %} {% static 'img/default_photo.png' %} {% else %} {{photo_path}} {% endif %}" style="max-height: 150px;max-width:150px"><div class="btn btn-dark" data-toggle="modal" data-target="#uploadPhotoModal">change</div></div>
                 <div class="data col-sm-8 col-offset-1">
-                    <div class="name">{{user.userID}}</div>
+                    <div class="name">{{request.user.get_username}}</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="uploadPhotoModal" tabindex="-1" role="dialog" aria-labelledby="uploadPhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadPhotoModalLabel">上傳頭像</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/profile/" method="POST" enctype="multipart/form-data" id="uploadPhotoForm">
+            <input type="text" name="profile_action" style="display: none;" value="photo">
+            {% csrf_token %}
+            {{f.as_p}}
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary uploadPhoto">上傳</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+      $(document).ready(function(){
+          $('.uploadPhoto').on('click',function(){
+              $('#uploadPhotoForm').submit();
+          })
+      })
+  </script>
 {% endblock content %}
