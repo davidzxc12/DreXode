@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from news_feed.views import news_feed
-from user_profile.views import login, logout,register
+from user_profile.views import login, logout,register,profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', news_feed),
     path('login/', login),
     re_path('logout/', logout),
-    re_path('register/', register)
+    re_path('register/', register),
+    re_path('profile/',profile)
 ]

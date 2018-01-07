@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% load static %} {% block css %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet"> {% endblock css %} {% block content %}
+<div class="container-fluid no-padding">
+    <div class="bg_container">
+        <div class="profile_area">
+            <div class="row upper_area">
+                <div class="photo col-sm-3"><img src="{% static user.photo_url %}" style="max-height: 150px;max-width:150px"></div>
+                <div class="data col-sm-8 col-offset-1">
+                    <div class="name">{{user.userID}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

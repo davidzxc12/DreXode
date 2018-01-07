@@ -1,7 +1,25 @@
 .navbar-brand {
     font-family: 'Rubik', sans-serif;
 }
-
+.Username{
+    color:white;
+    float: left;
+    font-size: 20px;
+    line-height: 100%;
+    text-align: center;
+    margin-top:12px;
+    margin-right: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.Username img{
+    max-height: 30px;
+    max-width: 30px;
+    margin-top: -12px;
+}
+.LogOutBtn{
+    font-weight: 700;
+}
 
 .side-filter{
     position: fixed;
@@ -11,4 +29,9 @@
 }
 .no-padding{
     padding:0 !important;
+}
+
+body{
+    font-family: 'Amiko',Microsoft JhengHei,serif;
+
 }

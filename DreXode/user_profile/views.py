@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect 
+from user_profile.models import Profile
 
 # Create your views here.
 
@@ -48,6 +49,7 @@ def register(request):
             return HttpResponseRedirect('/register')
         user = User.objects.create_user(username, email, password)
         user.save()
+        Profile.objects.create(userID=username,photo_url='img/default_photo.png')
         user = authenticate(username=username, password=password)
         django.contrib.auth.login(request, user)
         return HttpResponseRedirect('/index')
@@ -57,3 +59,11 @@ def register(request):
             request.session['login_err'] = ''
             return render(request, 'login.html',{'action':'register','error_message':err_msg})
         return render(request, 'login.html',{'action':'register'})
+
+
+def profile(request):
+    if request.user.is_authenticated:
+        userObj = Profile.objects.get(userID=request.user.get_username())
+        return render(request,'profile.html',{'user':userObj})
+    else:
+        return HttpResponseRedirect('/login')
