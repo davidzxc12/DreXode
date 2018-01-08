@@ -1,0 +1,63 @@
+{% load el_pagination_tags %} 
+{% load static %}
+ {% lazy_paginate 1 entry_list %}
+ {% for entry in entry_list %}
+<div class="entry-container row animated fadeInUp">
+    <div class="post-photo col-xs-12 col-md-4" style="background-image:url({{  entry.photo.url }});"></div>
+    <div class="post-detail col-xs-12 col-md-4">
+        <div class="post-detail-sec large-sec">
+            <img class="user-photo" src="
+                    {% if entry.userID.myprofile.photo %}
+                    {{entry.userID.myprofile.photo.url}}
+                    {% else %}
+                    {% static 'img/default_photo.png' %}
+                    {% endif %}
+                    "></img>
+            <span>{{entry.userID}}</span>
+        </div>
+        <div class="post-detail-sec">
+            <img class="detail-icon" src="{% static "img/upwear.png" %}">
+            <span>{{entry.upWear}}</span>
+        </div>
+        <div class="post-detail-sec">
+            <img class="detail-icon" src="{% static "img/downwear.png" %}">
+            <span>{{entry.downWear}}</span>
+        </div>
+        <div class="post-detail-sec">
+            <img class="detail-icon" src="{% static "img/shoes.png" %}">
+            <span>{{entry.shoes}}</span>
+        </div>
+        <div class="post-detail-sec">
+            <img class="detail-icon" src="{% static "img/accessories.png" %}">
+            <span>{{entry.accessories}}</span>
+        </div>
+    </div>
+    <div class="weather-detail col-xs-12 col-md-4">
+        <div>
+            <div class="weather">
+                <i class="{{entry.iconClass}}"></i>
+            </div>
+            <div class="temperature">
+                <img src="{% static 'img/temperature.png' %}">
+                <span>{{entry.temp}}°C</span>
+            </div>
+        </div>
+        <div class="row post-func">
+            <div class="col-4">
+                <img src='{% static "img/like.png" %}'>
+                <div id="like-count">10</div>
+            </div>
+            <div class="col-4">
+                    <img src='{% static "img/dislike.png" %}'>
+                    <div id="dislike-count">10</div>
+            </div>
+            <div class="col-4">
+                <img src='{% static "img/comment.png" %}'>
+                <div id="comment-count">10</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endfor %} 
+{% show_more %}

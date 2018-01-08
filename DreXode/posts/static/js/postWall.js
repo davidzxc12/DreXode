@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var key = '3a3302ad37558f0abfe30187e99af15a';
-
+    $.endlessPaginate({paginateOnScroll: true});
     function getWeather(position=null) {
         var lat =24;
         var lon = 121;

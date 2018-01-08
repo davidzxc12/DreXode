@@ -14,17 +14,25 @@
     <link href="https://fonts.googleapis.com/css?family=Amiko" rel="stylesheet"> 
 
     <!-- incude css -->
-    <link href="{% static 'css/base.css' %}" rel="stylesheet"> {% block css %} {% endblock css %}
+    <link href="{% static 'css/base.css' %}" rel="stylesheet"> 
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet"> {% block css %} {% endblock css %}
 </head>
 
 <body>
     <nav class="navbar fixed-top navbar-dark bg-dark">
         <!-- Navbar content -->
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/index">
             DreXode
         </a> {% if request.user.is_authenticated %}
         <div>
-            <div class="Username"><img src="{% static 'img/default_photo.png' %}"> {{request.user.get_username}}</div>
+            <div class="Username"><img src="
+                {% if request.user.myprofile.photo %}
+                {{request.user.myprofile.photo.url}}
+                {% else %}
+                {% static 'img/default_photo.png' %}
+                {% endif %}
+                
+                "> {{request.user.get_username}}</div>
             <div class="btn btn-primary LogOutBtn">logout</div>
         </div>
         {% endif %}

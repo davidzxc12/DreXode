@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from user_profile.models import  myPhoto
+from user_profile.models import MyPhoto
 from user_profile.forms import UploadPhotoForm
 
 # Create your views here.
@@ -75,13 +75,15 @@ def profile(request):
                 if form.is_valid():
                     pic = request.FILES['photo']
                     pic.name = str(request.user) + '.jpg'
-                    myPhoto.objects.update_or_create(userID=request.user.get_username(),defaults={'userID':request.user.get_username(),'photo':pic})
-                    return HttpResponseRedirect('')
+                    user = request.user
+                    user.myprofile.photo = pic
+                    user.save()
+                    return HttpResponseRedirect("/profile")
         photo_path = ''
-        if len(myPhoto.objects.filter(userID=request.user.get_username())) > 0:
-            photo_path = myPhoto.objects.get(
-                userID=request.user.get_username()).photo.url
+        if bool(request.user.myprofile.photo):
+            photo_path = request.user.myprofile.photo.url
         f = UploadPhotoForm()
+
         return render(request, 'profile.html', locals())
 
     else:
