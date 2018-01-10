@@ -72,7 +72,7 @@
     <div class="comment-container">
         <div class="comment-scetion row">
             <div class="col-2">
-                <img class="small-photo" src="{% if request.user.userID.myprofile.photo %}{{request.user.userID.myprofile.photo.url}}{% else %}{% static 'img/default_photo.png' %}{% endif %}"></img>
+                <img class="small-photo" src="{% if request.user.myprofile.photo %}{{request.user.myprofile.photo.url}}{% else %}{% static 'img/default_photo.png' %}{% endif %}"></img>
                 <span>{{request.user.username}}</span>
             </div>
             <div class="new-comment-section col-8">

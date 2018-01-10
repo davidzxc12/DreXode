@@ -70,6 +70,9 @@ def register(request):
 
 @page_template('post_template.html')
 def profile(request, pk, template='profile.html', extra_context=None):
+    authed = False
+    if request.user.username == pk:
+        authed = True
     if request.method == 'POST':
         action = request.POST['profile_action']
         if action == 'photo' and authed == True:
@@ -83,9 +86,8 @@ def profile(request, pk, template='profile.html', extra_context=None):
                 return HttpResponseRedirect("/profile/" + pk)
 
     # render page
-    authed = False
-    if request.user.username == pk:
-        authed = True
+    
+    
     userObj = User.objects.get(username=pk)
 
     photo_path = ''
