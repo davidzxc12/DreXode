@@ -21,3 +21,46 @@
     border:0px solid black;
     background-color: rgb(218, 218, 218)
 }
+.comment-display-container{
+    background-color: white;
+    border-top: 2px solid rgb(221, 221, 221);
+    padding: 0 20px;
+    padding-bottom: 20px;
+    border-radius: 0 0 10px 10px;
+}
+.comment-photo{
+    width:10%;
+    display: inline-block;
+}
+.comment-photo img{
+    max-width: 100%;
+    max-height: 10vh;
+    border-radius: 50%;
+}
+.comment-display-container ul {
+    list-style: none;
+    margin: 15px auto;
+    
+}
+.comment-display-container ul li{
+    margin: 10px auto;
+    background-color: rgb(123, 185, 255);
+    padding: 10px;
+    border-radius: 10px;
+
+}
+.comment-content{
+    display: inline-block;
+    background-color: white;
+    padding:6px;
+    padding-left: 10px;
+    width: 80%;
+    border-radius: 3px;
+    color: rgba(77, 77, 77, 0.678);
+    font-size: 3vh;
+
+}
+.post-container{
+    margin: 0;
+    width:100%;
+}

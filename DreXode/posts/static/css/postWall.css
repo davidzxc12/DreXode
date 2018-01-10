@@ -181,3 +181,63 @@ background-color: #e17f7fe6;
     color:rgb(255, 130, 130);
     font-weight: 700;
 }
+.side-filter{
+    padding:100px 20px 20px 20px;
+    font-weight: 700;
+    
+}
+.side-filter ul{
+    list-style: none;
+    
+}
+.side-filter ul li
+{
+    padding-left:5%;
+    cursor: pointer;
+    color:white;
+    border-radius: 10px;
+}
+.side-filter ul li:hover{
+    background-color: #3a3a3a;
+    
+}
+.side-filter ul li.selected{
+    background-color: #e2a22e;
+}
+
+.side-filter{
+    -webkit-transition: all 400ms ease-in;
+-moz-transition: all 400ms ease-in;
+-ms-transition: all 400ms ease-in;
+-o-transition: all 400ms ease-in;
+transition: all 400ms ease-in;
+}
+
+@media screen and (max-width: 768px){
+    .side-filter{
+        left:-15%;
+        overflow: hidden;
+        z-index: 1000;
+    }
+    .side-filter *{
+        opacity: 0;
+        -webkit-transition: all 400ms ease-in;
+        -moz-transition: all 400ms ease-in;
+        -ms-transition: all 400ms ease-in;
+        -o-transition: all 400ms ease-in;
+        transition: all 400ms ease-in;
+    }
+    .side-filter:hover{
+        left:0%;
+        
+        width:50%;
+    }
+    .side-filter:hover *{
+        opacity: 1;
+        
+    }
+    .container-fluid.post-container{
+        width:100%;
+        margin:0;
+    }
+}

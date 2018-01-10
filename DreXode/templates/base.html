@@ -46,7 +46,7 @@
 
             })
             $('.Username').click(function(){
-                window.location.href="/profile";
+                window.location.href="/profile/{{request.user.get_username}}/";
             })
         })
     </script>

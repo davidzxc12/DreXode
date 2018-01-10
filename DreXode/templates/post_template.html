@@ -13,7 +13,7 @@
                     {% static 'img/default_photo.png' %}
                     {% endif %}
                     "></img>
-            <span>{{entry.userID}}</span>
+                    <a href="/profile/{{entry.userID}}/"><span>{{entry.userID}}</span></a>
         </div>
         <div class="post-detail-sec">
             <img class="detail-icon" src="{% static "img/upwear.png" %}">
@@ -44,11 +44,11 @@
         </div>
         <div class="row post-func">
             <div class="col-4">
-                <img src='{% static "img/like.png" %}'>
+                <a class="likeBtn"><img src='{% static "img/like.png" %}'></a>
                 <div id="like-count">{{entry.count_like}}</div>
             </div>
             <div class="col-4">
-                    <img src='{% static "img/dislike.png" %}'>
+                    <a class="dislikeBtn"><img src='{% static "img/dislike.png" %}'></a>
                     <div id="dislike-count">{{entry.count_dislike}}</div>
             </div>
             <div class="col-4">

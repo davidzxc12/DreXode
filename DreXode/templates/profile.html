@@ -1,46 +1,190 @@
 {% extends "base.html" %} {% load static %} {% block css %}
-<link href="{% static 'css/profile.css' %}" rel="stylesheet"> {% endblock css %} {% block content %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons-wind.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.eot">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.svg">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.ttf">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.woff">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.woff2">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> {% endblock css %} {% block content %}
 <div class="container-fluid no-padding">
     <div class="bg_container">
         <div class="profile_area">
             <div class="row upper_area">
-                <div class="photo col-sm-3"><img src="{% if photo_path == '' %} {% static 'img/default_photo.png' %} {% else %} {{photo_path}} {% endif %}" style="max-height: 150px;max-width:150px"><div class="btn btn-dark" data-toggle="modal" data-target="#uploadPhotoModal">change</div></div>
+                <div class="photo col-sm-3">
+                    <img src="{% if photo_path == '' %} {% static 'img/default_photo.png' %} {% else %} {{photo_path}} {% endif %}" style="max-height: 150px;max-width:150px"> {% if authed %}
+                    <div class="btn btn-dark" data-toggle="modal" data-target="#uploadPhotoModal">change</div>
+                    {% else %}
+                    <div class="btn btn-dark followBtn" >Follow</div>
+                    {% endif %}</div>
                 <div class="data col-sm-8 col-offset-1">
-                    <div class="name">{{request.user.get_username}}</div>
+                    <div class="name">{{pk}}</div>
                 </div>
             </div>
+            <div class="tab">
+                <button class="btn btn-primary viewpost">Posts</button>
+                <button class="btn btn-secondary viewfollow">Following</button>
+            </div>
+        </div>
+        <div class="mypost-container">
+            {% include 'post_template.html' %}
+        </div>
+        <div class="following-container animated fadeInUp">
+            <ul class="following-ul">
+                {% for follow in follows %}
+                <li><a href="/profile/{{follow.following.username}}/"><div class="comment-photo"><img src="{% if follow.following.myprofile.photo %}
+                    {{follow.following.myprofile.photo.url}}
+                    {% else %}
+                    {% static 'img/default_photo.png' %}
+                    {% endif %}"></div>
+                    <div class="comment-content">{{follow.following.username}}</div></a>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="uploadPhotoModal" tabindex="-1" role="dialog" aria-labelledby="uploadPhotoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="uploadPhotoModalLabel">上傳頭像</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadPhotoModalLabel">上傳頭像</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/profile/{{request.user.get_username}}/" method="POST" enctype="multipart/form-data" id="uploadPhotoForm">
+                    <input type="text" name="profile_action" style="display: none;" value="photo"> {% csrf_token %} {{f.as_p}}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary uploadPhoto">上傳</button>
+            </div>
         </div>
-        <div class="modal-body">
-          <form action="/profile/" method="POST" enctype="multipart/form-data" id="uploadPhotoForm">
-            <input type="text" name="profile_action" style="display: none;" value="photo">
-            {% csrf_token %}
-            {{f.as_p}}
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary uploadPhoto">上傳</button>
-        </div>
-      </div>
     </div>
-  </div>
-  <script>
-      $(document).ready(function(){
-          $('.uploadPhoto').on('click',function(){
-              $('#uploadPhotoForm').submit();
-          })
-      })
-  </script>
+</div>
+<script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $.endlessPaginate({
+            paginateOnScroll: true,
+            onCompleted: function (context, fragment) {
+                $('.likeBtn').off('click').on('click', function (e) {
+                    alert('like')
+                    var _this = $(this);
+                    var userID = $.trim($('.Username').text());
+                    var postID = $(this).parents('.entry-container').attr('id');
+                    $.ajax({
+                        async: false,
+                        url: '/addlike',
+                        dataType: "json",
+                        data: {
+                            'user': userID,
+                            'post': postID,
+                            'action': 'like'
+                        },
+                        method: "POST",
+                        success: function (json) {
+                            resp = json;
+                            console.log(resp);
+                            _this.next('#like-count').text(json.count);
+                        }
+                    });
+
+                })
+                $('.dislikeBtn').off('click').on('click', function (e) {
+                    var _this = $(this);
+                    var userID = $.trim($('.Username').text());
+                    var postID = $(this).parents('.entry-container').attr('id');
+                    $.ajax({
+                        async: false,
+                        url: '/addlike',
+                        dataType: "json",
+                        data: {
+                            'user': userID,
+                            'post': postID,
+                            'action': 'dislike'
+                        },
+                        method: "POST",
+                        success: function (json) {
+                            resp = json;
+                            console.log(resp);
+                            _this.next('#dislike-count').text(json.count);
+                        }
+                    });
+                });
+            }
+        });
+        $('.uploadPhoto').on('click', function () {
+            $('#uploadPhotoForm').submit();
+        })
+        $('.viewpost').on('click', function () {
+            $('.mypost-container').show();
+            $('.following-container').hide();
+            $('.viewfollow').removeClass('btn-primary').addClass('btn-secondary');
+            $(this).removeClass('btn-secondary').addClass('btn-primary');
+        }).trigger('click');
+        $('.viewfollow').on('click', function () {
+            $('.mypost-container').hide();
+            $('.following-container').show();
+            $('.viewpost').removeClass('btn-primary').addClass('btn-secondary');
+            $(this).removeClass('btn-secondary').addClass('btn-primary');
+        })
+    })
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+    $('.followBtn').on('click', function () {
+        _this = $(this);
+        var userID = $.trim($('.Username').text());
+        var following = $.trim(_this.parents('.upper_area').find('.name').text());
+        var action = _this.text().toLowerCase();
+        $.ajax({
+            async: false,
+            url: '/follow',
+            dataType: "json",
+            data: {
+                'follower': userID,
+                'following': following,
+                'action': action
+            },
+            method: "POST",
+            success: function (json) {
+                resp = json;
+                console.log(resp);
+                if(json.isSuccess){
+                    if(action=='follow')
+                        _this.text('Unfollow');
+                    else
+                        _this.text('Follow');
+                }
+            }
+        });
+    })
+</script>
 {% endblock content %}

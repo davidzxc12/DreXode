@@ -19,17 +19,21 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponseRedirect
 
-from posts.views import postWall,newPost,index,postView
-from user_profile.views import login, logout,register,profile
+from posts.views import postWall,newPost,index,postView,newComment,ajaxAddLike,filterPostWall
+from user_profile.views import login, logout,register,profile,ajaxFollow
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('feed/', postWall),
+    path('feed/<action>/',filterPostWall),
     path('index/', index),
     path('login/', login),
     path('newPost/',newPost),
     path('post/<pk>/',postView),
+    path('post/<pk>/comment',newComment),
+    path('addlike',ajaxAddLike),
+    path('follow',ajaxFollow),
     re_path('logout/', logout),
     re_path('register/', register),
-    re_path('profile/',profile),
+    path('profile/<pk>/',profile),
     re_path('^$',lambda r: HttpResponseRedirect('/index'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

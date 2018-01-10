@@ -1,10 +1,12 @@
 import django
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
-from user_profile.models import MyPhoto
+from django.http import HttpResponseRedirect, JsonResponse
+from user_profile.models import MyPhoto, FollowRelation
 from user_profile.forms import UploadPhotoForm
+from el_pagination.decorators import page_template
+from posts.models import Post
 
 # Create your views here.
 
@@ -66,25 +68,53 @@ def register(request):
         return render(request, 'login.html', {'action': 'register'})
 
 
-def profile(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            action = request.POST['profile_action']
-            if action == 'photo':
-                form = UploadPhotoForm(request.POST, request.FILES)
-                if form.is_valid():
-                    pic = request.FILES['photo']
-                    pic.name = str(request.user) + '.jpg'
-                    user = request.user
-                    user.myprofile.photo = pic
-                    user.save()
-                    return HttpResponseRedirect("/profile")
-        photo_path = ''
-        if bool(request.user.myprofile.photo):
-            photo_path = request.user.myprofile.photo.url
-        f = UploadPhotoForm()
+@page_template('post_template.html')
+def profile(request, pk, template='profile.html', extra_context=None):
+    if request.method == 'POST':
+        action = request.POST['profile_action']
+        if action == 'photo' and authed == True:
+            form = UploadPhotoForm(request.POST, request.FILES)
+            if form.is_valid():
+                pic = request.FILES['photo']
+                pic.name = str(request.user) + '.jpg'
+                user = request.user
+                user.myprofile.photo = pic
+                user.save()
+                return HttpResponseRedirect("/profile/" + pk)
 
-        return render(request, 'profile.html', locals())
+    # render page
+    authed = False
+    if request.user.username == pk:
+        authed = True
+    userObj = User.objects.get(username=pk)
 
-    else:
-        return HttpResponseRedirect('/login')
+    photo_path = ''
+    if bool(User.objects.get(username=pk).myprofile.photo):
+        photo_path = User.objects.get(username=pk).myprofile.photo.url
+    f = UploadPhotoForm()
+    follows = FollowRelation.objects.filter(follower=userObj)
+    print(follows)
+    context = {'photo_path': photo_path, 'f': f, 'entry_list': Post.objects.filter(
+        userID=userObj).order_by('-createTime'), 'authed': authed,'pk':pk,'follows':follows}
+    if extra_context is not None:
+        context.update(extra_context)
+    return render(request, template, context)
+
+
+def ajaxFollow(request):
+    if request.is_ajax() and request.method == 'POST':
+        followerID = request.POST['follower']
+        followingID = request.POST['following']
+        action = True if request.POST['action'] == 'follow' else False
+        followerObj = User.objects.get(username=followerID)
+        followingObj = User.objects.get(username=followingID)
+        if(action):
+            FollowRelation.objects.get_or_create(
+                follower=followerObj,
+                following=followingObj,
+                defaults={'follower': followerObj,
+                        'following': followingObj}
+            )
+        else:
+            FollowRelation.objects.filter(follower=followerObj,following=followingObj).delete()
+        return JsonResponse({'isSuccess':True})

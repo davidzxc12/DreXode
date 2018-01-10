@@ -10,7 +10,27 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
 
 {% endblock css %} {% block content %}
-<div class="side-filter">test</div>
+<div class="side-filter">
+    <div class="filter">
+        <ul>
+            <li id="top">Top Favorite</li>
+            <li id="following">Following</li>
+            <li id="newest">Newest</li>
+        </ul>
+        <h5>By Weather</h5>
+        <ul>
+            <li id="Clear">Clear</li>
+            <li id="Clouds">Clouds</li>
+            <li id="Rain">Rain</li>
+            <li id="Thunderstorm">Thunderstorm</li>
+            <li id="Snow">Snow</li>
+            <li id="Atmosphere">Atmosphere</li>
+            <li id="Drizzle">Drizzle</li>
+            <li id="Extreme">Extreme</li>
+            <li id="Additional">Additional</li>
+        </ul>
+    </div>
+</div>
 <div class="container-fluid post-container">
     <div class="newPost-container">
         <form class="postForm" action="/newPost/" method="POST" enctype="multipart/form-data" style="display: none;">
@@ -50,4 +70,11 @@
 {{ block.super }}
 <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
 <script src="{% static 'js/postWall.js' %}"></script>
+<script>
+    {% if action %}
+    var action = {{action}};
+    console.log(action);
+    $(action).addClass('selected');
+    {% endif %}
+</script>
 {% endblock content %}

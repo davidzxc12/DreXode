@@ -20,6 +20,11 @@ class OverwriteStorage(FileSystemStorage):
             os.remove(os.path.join(settings.MEDIA_ROOT, name))
         return name
 
+class FollowRelation(models.Model):
+    follower = models.ForeignKey(User,on_delete=models.CASCADE,related_name="follower")
+    following = models.ForeignKey(User,on_delete=models.CASCADE,related_name="following")
+
+
 
 class MyPhoto(models.Model):
     userID = models.OneToOneField(
