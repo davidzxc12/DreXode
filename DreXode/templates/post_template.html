@@ -45,15 +45,15 @@
         <div class="row post-func">
             <div class="col-4">
                 <img src='{% static "img/like.png" %}'>
-                <div id="like-count">10</div>
+                <div id="like-count">{{entry.count_like}}</div>
             </div>
             <div class="col-4">
                     <img src='{% static "img/dislike.png" %}'>
-                    <div id="dislike-count">10</div>
+                    <div id="dislike-count">{{entry.count_dislike}}</div>
             </div>
             <div class="col-4">
                 <img src='{% static "img/comment.png" %}'>
-                <div id="comment-count">10</div>
+                <div id="comment-count">{{entry.count_comment}}</div>
             </div>
         </div>
     </div>

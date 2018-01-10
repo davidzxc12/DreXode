@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block css %} {% load static %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet"> {% endblock css %} {% block content %}
+<div class="container-fluid no-padding">
+    <div class="bg_container">
+        <div class="login_container animated fadeInDown">
+            <div class="brand">
+                DreXode
+            </div>
+            <div class="subtitle">
+                Discover Dresscode , Share Your Dresscode.
+            </div>
+            <button class="btn btn-primary startBtn" style="width:100%;">Start!</button>
+        </div>
+    </div>
+</div>
+<style>
+    .subtitle{
+        text-align: center;
+        padding: 20px;
+        font-weight: 800;
+        color: #6e6e6e;
+        font-size: 22px;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        var error_msg = ''; 
+        {% if error_message %}
+        error_msg = "{{error_message}}";
+         {% endif %}
+        console.log(error_msg);
+        if (error_msg != '')
+            alert(error_msg);
+
+        $('.startBtn').on('click',function(){
+            window.location.href='/login';
+        })
+
+
+        
+    })
+</script>
+{% endblock content %}

@@ -28,3 +28,8 @@ def newPost(request):
     else:
         return HttpResponseRedirect('/login')
     return HttpResponseRedirect('/index')
+
+def index(request):
+    if request.user and request.user.is_authenticated:
+        return HttpResponseRedirect('/feed')
+    return render(request,'index.html')

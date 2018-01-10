@@ -2,7 +2,7 @@
 <link href="{% static 'css/login.css' %}" rel="stylesheet"> {% endblock css %} {% block content %}
 <div class="container-fluid no-padding">
     <div class="bg_container">
-        <div class="login_container">
+        <div class="login_container animated fadeInDown">
             <div class="brand">
                 DreXode
             </div>
@@ -21,8 +21,12 @@
                 <div class="form-group">
                     <input type="email" class="form-control" id="EmailInput" placeholder="Enter E-mail" name="email" required>
                 </div>
+                <button class="btn btn-primary loginBtn" style="width:49%;">Sign In</button>
+                <button class="btn btn-primary Sign_np" style="width:50%;">Sign Up</button>
+                {% else %}
+                <button class="btn btn-primary Sign_np" style="width:50%;">Sign Up</button>
+                <button class="btn btn-primary loginBtn" style="width:49%;">Sign In</button>
                 {% endif %}
-                <button class="btn btn-primary loginBtn">{{action}}</button>
             </form>
         </div>
     </div>
@@ -36,6 +40,19 @@
         console.log(error_msg);
         if (error_msg != '')
             alert(error_msg);
+
+
+        {% if action == 'register' %}
+        $('.loginBtn').on('click',function(e){
+            e.preventDefault();
+            window.location.href="/login"
+        })
+        {% else %}
+        $('.Sign_np').on('click',function(e){
+            e.preventDefault();
+            window.location.href="/register"
+        })
+        {% endif %}
     })
 </script>
 {% endblock content %}

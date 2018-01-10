@@ -18,6 +18,14 @@ class Post(models.Model):
     iconClass = models.CharField(max_length=100)
     createTime = models.DateTimeField(auto_now_add=True)
 
+    def count_like(self):
+        return Like.objects.filter(postID=self,like=True).count()
+    def count_dislike(self):
+        return Like.objects.filter(postID=self,like=False).count()
+    def count_comment(self):
+        return Comment.objects.filter(postID=self).count()
+        
+
 
 
 
@@ -32,3 +40,4 @@ class Like(models.Model):
     userID = models.ForeignKey(User,on_delete=models.CASCADE)
     postID = models.ForeignKey(Post,on_delete=models.CASCADE)
     like = models.BooleanField()
+
