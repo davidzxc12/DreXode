@@ -33,3 +33,7 @@ def index(request):
     if request.user and request.user.is_authenticated:
         return HttpResponseRedirect('/feed')
     return render(request,'index.html')
+
+def postView(request,pk):
+    entry = Post.objects.get(postID=pk)
+    return render(request,'post.html',locals())

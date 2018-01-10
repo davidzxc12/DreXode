@@ -2,7 +2,7 @@
 {% load static %}
  {% lazy_paginate 1 entry_list %}
  {% for entry in entry_list %}
-<div class="entry-container row animated fadeInUp">
+<div class="entry-container row animated fadeInUp" id="{{entry.postID}}">
     <div class="post-photo col-xs-12 col-md-4" style="background-image:url({{  entry.photo.url }});"></div>
     <div class="post-detail col-xs-12 col-md-4">
         <div class="post-detail-sec large-sec">
@@ -52,7 +52,7 @@
                     <div id="dislike-count">{{entry.count_dislike}}</div>
             </div>
             <div class="col-4">
-                <img src='{% static "img/comment.png" %}'>
+                <a href="/post/{{entry.postID}}/"><img src='{% static "img/comment.png" %}'></a>
                 <div id="comment-count">{{entry.count_comment}}</div>
             </div>
         </div>

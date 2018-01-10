@@ -3,6 +3,7 @@
     width: 80%;
     margin-left: 20%;
     padding: 80px 15%;
+    min-height: 100%;
 }
 
 .newPost-container {
@@ -144,8 +145,10 @@ background-color: #e17f7fe6;
     font-weight: 800;
 }
 .weather>i{
-    font-size:10vh;
-    top: calc(50% - 10vh);
+    position: absolute;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    font-size: 40px;
 }
 .weather{
     text-align: center;

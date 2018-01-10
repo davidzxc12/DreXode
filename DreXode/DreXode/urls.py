@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponseRedirect
 
-from posts.views import postWall,newPost,index
+from posts.views import postWall,newPost,index,postView
 from user_profile.views import login, logout,register,profile
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,7 @@ urlpatterns = [
     path('index/', index),
     path('login/', login),
     path('newPost/',newPost),
+    path('post/<pk>/',postView),
     re_path('logout/', logout),
     re_path('register/', register),
     re_path('profile/',profile),

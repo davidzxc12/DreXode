@@ -1,0 +1,85 @@
+{% extends "base.html" %} {% load static %} {% block css %}
+<link href="{% static 'css/postWall.css' %}" rel="stylesheet">
+<link href="{% static 'css/comment.css' %}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons-wind.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.eot">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.svg">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.ttf">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.woff">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.woff2">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> {% endblock css %} {% block content %}
+<div class="side-filter">test</div>
+<div class="container-fluid post-container animated fadeInUp">
+    <div class="entry-container row" id="{{entry.postID}}" style="margin-bottom:0;">
+        <div class="post-photo col-xs-12 col-md-4" style="background-image:url({{  entry.photo.url }});"></div>
+        <div class="post-detail col-xs-12 col-md-4">
+            <div class="post-detail-sec large-sec">
+                <img class="user-photo" src="
+                                {% if entry.userID.myprofile.photo %}
+                                {{entry.userID.myprofile.photo.url}}
+                                {% else %}
+                                {% static 'img/default_photo.png' %}
+                                {% endif %}
+                                "></img>
+                <span>{{entry.userID}}</span>
+            </div>
+            <div class="post-detail-sec">
+                <img class="detail-icon" src="{% static "img/upwear.png" %}">
+                <span>{{entry.upWear}}</span>
+            </div>
+            <div class="post-detail-sec">
+                <img class="detail-icon" src="{% static "img/downwear.png" %}">
+                <span>{{entry.downWear}}</span>
+            </div>
+            <div class="post-detail-sec">
+                <img class="detail-icon" src="{% static "img/shoes.png" %}">
+                <span>{{entry.shoes}}</span>
+            </div>
+            <div class="post-detail-sec">
+                <img class="detail-icon" src="{% static "img/accessories.png" %}">
+                <span>{{entry.accessories}}</span>
+            </div>
+        </div>
+        <div class="weather-detail col-xs-12 col-md-4">
+            <div>
+                <div class="weather">
+                    <i class="{{entry.iconClass}}"></i>
+                </div>
+                <div class="temperature">
+                    <img src="{% static 'img/temperature.png' %}">
+                    <span>{{entry.temp}}°C</span>
+                </div>
+            </div>
+            <div class="row post-func">
+                <div class="col-4">
+                    <img src='{% static "img/like.png" %}'>
+                    <div id="like-count">{{entry.count_like}}</div>
+                </div>
+                <div class="col-4">
+                    <img src='{% static "img/dislike.png" %}'>
+                    <div id="dislike-count">{{entry.count_dislike}}</div>
+                </div>
+                <div class="col-4">
+                        <img src='{% static "img/comment.png" %}'>
+                    <div id="comment-count">{{entry.count_comment}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="comment-container">
+        <div class="comment-scetion row">
+            <div class="col-2">
+                <img class="small-photo" src="{% if request.user.userID.myprofile.photo %}{{request.user.userID.myprofile.photo.url}}{% else %}{% static 'img/default_photo.png' %}{% endif %}"></img>
+                <span>{{request.user.username}}</span>
+            </div>
+            <div class="new-comment-section col-8">
+                <input type="text" id="new-comment" placeholder="write comment..." class="full-width">
+            </div>
+            <div class="col-2">
+                <input type="button" class="btn btn-danger" value="submit">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
