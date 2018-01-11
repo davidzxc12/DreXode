@@ -89,7 +89,10 @@ def filterPostWall(request,action,template='postWall.html',extra_context=None):
         Ufollow = FollowRelation.objects.filter(follower=request.user)
         for U in Ufollow:
             qCondition.append(Q(userID=U.following))
-        context = {'entry_list': Post.objects.filter(reduce(ior, qCondition)).order_by('-createTime')}
+        if len(qCondition)>0:
+            context = {'entry_list': Post.objects.filter(reduce(ior, qCondition)).order_by('-createTime')}
+        else:
+            context = {'entry_list': []}
     elif action == 'newest':
         context = {'entry_list': Post.objects.all().order_by('-createTime')}
     elif action in weatherCondition:
